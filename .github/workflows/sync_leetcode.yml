@@ -1,29 +1,21 @@
-name: Sync LeetCode
+name: Sync Leetcode
 
 on:
   workflow_dispatch:
   schedule:
-    # Every Saturday at 08:00 UTC
     - cron: "0 8 * * 6"
 
-permissions:
-  contents: write   # minimum permission needed to push commits
-
 jobs:
-  sync:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Sync LeetCode submissions
+      - name: Sync
         uses: joshcai/leetcode-sync@v1.7
         with:
           github-token: ${{ github.token }}
-
-          # LeetCode authentication (GitHub Secrets)
-          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
-
-          # Output configuration
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           destination-folder: my-folder
-          verbose: false
+          verbose: true
           commit-header: "[LeetCode Sync]"
